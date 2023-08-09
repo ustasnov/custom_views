@@ -50,7 +50,8 @@ class StatsView @JvmOverloads constructor(
 
     var data: List<Float> = emptyList()
         set(value) {
-            field = value
+            val sum = value.sum()
+            field = value.map { it / sum }
             invalidate()
         }
 
@@ -75,6 +76,9 @@ class StatsView @JvmOverloads constructor(
             canvas.drawArc(oval, startFrom, angle, false, paint)
             startFrom += angle
         }
+
+        paint.color = colors.first()
+        canvas.drawArc(oval,-90F, 0.1F, false, paint)
 
         canvas.drawText(
             "%.2f%%".format(data.sum() * 100),
